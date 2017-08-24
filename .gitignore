@@ -1,0 +1,6 @@
+.perlbrew-autouse
+/*.SKIP.bak
+/MYMETA.*
+/_build
+/blib
+/Build
