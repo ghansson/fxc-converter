@@ -1,16 +1,16 @@
-package FXConverter::Converter;
+package FXC::Converter;
 
 use strict;
 use warnings;
 
-use FXConverter::Rates;
+use FXC::Rates;
 
 sub new {
   my $class = shift;
   my $opts = shift || { };
 
   return bless {
-    rates => FXConverter::Rates->new( {
+    rates => FXC::Rates->new( {
       cache => $opts->{cache},
       on_message => $opts->{on_message},
     } )

@@ -1,4 +1,4 @@
-package FXConverter::Rates;
+package FXC::Rates;
 
 use strict;
 use warnings;

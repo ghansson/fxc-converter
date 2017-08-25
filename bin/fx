@@ -3,10 +3,10 @@
 use strict;
 use warnings;
 
-use ExchangeRater::Converter;
+use FXC::Converter;
 
-my $converter = ExchangeRater::Converter->new({
-  cache => "$ENV{HOME}/.exchange-rater-cache.xml",
+my $converter = FXC::Converter->new({
+  cache => "$ENV{HOME}/.fx-converter-cache.xml",
   on_message => sub {
     my ($msg, $exit) = @_;
 

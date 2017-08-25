@@ -1,4 +1,4 @@
-package FXConverter;
+package FXC;
 
 use strict;
 use warnings;

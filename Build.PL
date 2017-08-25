@@ -1,7 +1,7 @@
 use Module::Build;
 
 Module::Build->new(
-  module_name => 'FXConverter',
+  module_name => 'FXC',
   dist_abstract => 'Currency converter based on ECBs reference rate feed',
   license => 'perl',
   requires => {

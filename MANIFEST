@@ -1,6 +1,6 @@
 bin/fx
 Build.PL
-lib/FXConverter.pm
-lib/FXConverter/Converter.pm
-lib/FXConverter/Rates.pm
+lib/FXC.pm
+lib/FXC/Converter.pm
+lib/FXC/Rates.pm
 MANIFEST			This list of files
