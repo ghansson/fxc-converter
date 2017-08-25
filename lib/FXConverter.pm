@@ -1,4 +1,4 @@
-package ExchangeRater;
+package FXConverter;
 
 use strict;
 use warnings;

@@ -1,11 +1,11 @@
 use Module::Build;
 
 Module::Build->new(
-  module_name => 'ExchangeRater',
+  module_name => 'FXConverter',
   dist_abstract => 'Currency converter based on ECBs reference rate feed',
-  dist_version => '0.1',
   license => 'perl',
   requires => {
     'XML::LibXML' => '0',
+    'LWP::UserAgent' => '0',
   },
 )->create_build_script;

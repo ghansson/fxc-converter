@@ -1,16 +1,16 @@
-package ExchangeRater::Converter;
+package FXConverter::Converter;
 
 use strict;
 use warnings;
 
-use ExchangeRater::Rates;
+use FXConverter::Rates;
 
 sub new {
   my $class = shift;
   my $opts = shift || { };
 
   return bless {
-    rates => ExchangeRater::Rates->new( {
+    rates => FXConverter::Rates->new( {
       cache => $opts->{cache},
       on_message => $opts->{on_message},
     } )

@@ -1,4 +1,4 @@
-package ExchangeRater::Rates;
+package FXConverter::Rates;
 
 use strict;
 use warnings;
