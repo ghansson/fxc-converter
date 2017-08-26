@@ -36,10 +36,12 @@ sub rates {
 sub _set_rates_from_cache {
   my $self = shift;
   return unless($self->{cache});
-  return if(-z $self->{cache});
 
   my @stat = stat($self->{cache});
-  return if($stat[9] < time() - $self->{cache_max_age});
+  return if(
+    !(scalar(@stat) || $stat[7])
+    || $stat[9] < time() - $self->{cache_max_age}
+  );
 
   my $fh = IO::File->new($self->{cache}, 'r');
   return $self->parse_xml($fh);
