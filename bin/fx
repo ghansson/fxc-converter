@@ -6,16 +6,8 @@ use warnings;
 use FXC;
 use FXC::Converter;
 use Docopt;
-use Pod::Usage;
 
-my $opts = docopt;
-
-if($opts->{'--man'}) {
-  pod2usage(-verbose => 2);
-} elsif($opts->{'--version'}) {
-  print "$0 v${FXC::VERSION}\n";
-  exit(0);
-}
+my $opts = docopt(version => "$0 v$FXC::VERSION");
 
 my $converter = FXC::Converter->new({
   cache => "$ENV{HOME}/.fx-converter-cache.xml",
@@ -64,7 +56,6 @@ printf("%.02f\n", $converter->convert($amount, $from, $to));
 =head2 OPTIONS
 
   --help      Usage manual
-  --man       Full documentation
   --version   Shows version number and exists
 
 =head2 OPTION DETAIL
