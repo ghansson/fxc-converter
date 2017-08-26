@@ -3,7 +3,19 @@
 use strict;
 use warnings;
 
+use FXC;
 use FXC::Converter;
+use Docopt;
+use Pod::Usage;
+
+my $opts = docopt;
+
+if($opts->{'--man'}) {
+  pod2usage(-verbose => 2);
+} elsif($opts->{'--version'}) {
+  print "$0 v${FXC::VERSION}\n";
+  exit(0);
+}
 
 my $converter = FXC::Converter->new({
   cache => "$ENV{HOME}/.fx-converter-cache.xml",
@@ -15,23 +27,102 @@ my $converter = FXC::Converter->new({
   },
 });
 
-
-sub parse_args {
-  splice(@_, 2, 1) if(scalar(@_) == 4);
-
-  die "Missing or malformatted amount\n" unless($_[0] && $_[0] =~ /^\d+(?:\.\d+)?$/);
-  die "From symbol missing\n" unless($_[1]);
-  die "To symbol missing\n" unless($_[2]);
-
-  for my $i (1..2) {
-    $_[$i] = uc($_[$i]) ;
-    die "$_[$i] is unsupported or malformatted\n"
-      unless($converter->has_symbol($_[$i]));
-  }
-
-  return @_;
+if($opts->{'<symbols>'}) {
+  print join("\n", sort(@{$converter->symbols}));
+  print "\n";
+  exit(0);
 }
 
-my ($amount, $from_symbol, $to_symbol) = parse_args(@ARGV);
+sub graceful_exit {
+  Docopt::Exceptions::DocoptExit->throw(shift);
+}
 
-printf("%.02f\n", $converter->convert($amount, $from_symbol, $to_symbol));
+sub validate {
+  graceful_exit("Amount is not a number") unless($opts->{'<amount>'} =~ /^\d+(?:\.\d+)?$/);
+
+  for($opts->{'<from>'}, $opts->{'<to>'}) {
+    $_ = uc($_);
+    graceful_exit("$_ is not a supported currency symbol") unless($converter->has_symbol($_));
+  }
+
+  return ($opts->{'<amount>'}, $opts->{'<from>'}, $opts->{'<to>'});
+}
+
+
+my ($amount, $from, $to) = validate;
+
+printf("%.02f\n", $converter->convert($amount, $from, $to));
+
+
+=head1 SYNOPSIS
+
+  fx <amount> <from> in <to>
+  fx <amount> <from> <to>
+  fx <symbols>
+  fx [options]
+
+=head2 OPTIONS
+
+  --help      Usage manual
+  --man       Full documentation
+  --version   Shows version number and exists
+
+=head2 OPTION DETAIL
+
+=over
+
+=item B<<amount>>
+
+The amount to convert from. Decimals denoted by C<.>
+
+=item B<<from>>
+
+ISO 4217 currency code to convert C<amount> I<from>.
+
+=item B<<to>>
+
+ISO 4217 currency code to convert C<amount> I<to>.
+
+=item B<<symbols>>
+
+List currency symbols available to this program.
+
+=item B<--help>
+
+Shows this help message.
+
+=item B<--man>
+
+Shows help in manual format
+
+=item B<--version>
+
+Shows version number and exists.
+
+=back
+
+=head1 DESCRIPTION
+
+fx converts a sum from one currency to another using the European Central Banks
+reference data set. This dataset is published daily at around 16.00 CET Monday
+to Friday. For more information, please see ECB's website at
+L<http://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html>
+
+The data feed is available as XML at L<http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml>.
+
+=head1 EXTERNAL DEPENDENCIES
+
+=over
+
+=item zlib
+
+=item libxml2
+
+=back
+
+=head1 AUTHOR
+
+Gunnar Hansson <gunnar@ghansson.com>
+
+=cut
+
