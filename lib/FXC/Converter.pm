@@ -19,6 +19,8 @@ sub new {
 
 sub rates { shift->{rates}->rates }
 
+sub symbols { [keys(%{shift->rates})] }
+
 sub has_symbol {
   my $self = shift;
   my $symbol = shift;
