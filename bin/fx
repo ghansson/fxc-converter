@@ -19,7 +19,7 @@ my $converter = FXC::Converter->new({
   },
 });
 
-if($opts->{'<symbols>'}) {
+if($opts->{'symbols'}) {
   print join("\n", sort(@{$converter->symbols}));
   print "\n";
   exit(0);
@@ -50,7 +50,7 @@ printf("%.02f\n", $converter->convert($amount, $from, $to));
 
   fx <amount> <from> in <to>
   fx <amount> <from> <to>
-  fx <symbols>
+  fx symbols
   fx [options]
 
 =head2 OPTIONS
@@ -74,7 +74,7 @@ ISO 4217 currency code to convert C<amount> I<from>.
 
 ISO 4217 currency code to convert C<amount> I<to>.
 
-=item B<<symbols>>
+=item B<symbols>
 
 List currency symbols available to this program.
 
