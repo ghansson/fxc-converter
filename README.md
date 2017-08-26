@@ -24,3 +24,4 @@ fx 10 SEK BRL # - or -
 ```
 Rates are cached daily in ```$HOME/.fx-converter-cache.xml```
 
+See ```fx --man``` or [read the source](bin/fx) for full documentation.
